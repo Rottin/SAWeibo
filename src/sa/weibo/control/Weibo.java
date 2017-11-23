@@ -84,12 +84,14 @@ public class Weibo extends Observable
 		notifyObservers(new Object[]{LOGGER,"获取微博列表"});
 		return weiboPOs;
 	}
+	
 	@Override
 	public String toString()
 	{
 		// TODO Auto-generated method stub
 		return "Weibo:userID:"+this.userId;
 	}
+	
 	public void clickWeibo(int weiboid)
 	{
 		dao.addClickCount(weiboid);
