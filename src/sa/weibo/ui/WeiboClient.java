@@ -58,7 +58,7 @@ public class WeiboClient
 					window.frame.setVisible(true);
 					DefaultTableModel logTableModel = (DefaultTableModel)table_1.getModel();
 					DefaultTableModel countTableModel = (DefaultTableModel)table_2.getModel();
-					
+					//观察者
 					WeiboLogger logger = new WeiboLogger(logTableModel);
 					weibo.addObserver(logger);
 					WeiboCounter counter = new WeiboCounter(countTableModel);
