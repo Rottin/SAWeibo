@@ -14,8 +14,7 @@ public class Demo
 {
 	public static void main(String[] args)
 	{
-		WeiboClient client = new WeiboClient();
-		client.main(new String[]{});
+		Weibo weibo = new Weibo(1234567);
 	}
 	
 }
