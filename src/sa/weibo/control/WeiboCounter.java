@@ -28,13 +28,14 @@ public class WeiboCounter implements Observer
 	public void update(Observable o, Object arg)
 	{
 		// TODO Auto-generated method stub
-		if (((String)args[0]).equals("count"))
+		ArrayList<Object> args = (ArrayList<Object>) arg;
+		if (((String)args.get(0)).equals("count"))
 		{
 //			System.out.println("COUNT UPDATE");
 			String countString = "";
-			countString  = "点击：WeiboID = " + (ArrayList<Object>)arg + "，此微博总点击次数：" + arg[2];
+			countString  = "点击：WeiboID = " + args.get(1) + "，此微博总点击次数：" + args.get(2);
 			if(hasTableModel){
-				tableModel.addRow(new Object[]{args[1], arg[2]});
+				tableModel.addRow(new Object[]{args.get(1), args.get(2)});
 			}
 		}
 	}

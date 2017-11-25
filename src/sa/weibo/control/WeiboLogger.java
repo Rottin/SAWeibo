@@ -1,8 +1,12 @@
 package sa.weibo.control;
 
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.table.DefaultTableModel;
 
-public class WeiboLogger extends MyObserver
+public class WeiboLogger implements Observer
 {
 	private DefaultTableModel tableModel;
 	private boolean hasTableModel = false;
@@ -20,13 +24,14 @@ public class WeiboLogger extends MyObserver
 	}
 	
 	@Override
-	public void update(MyObservable observable, Object[] args)
+	public void update(Observable o, Object arg)
 	{
 		// TODO Auto-generated method stub
-		if (((String)args[0]).equals("log"))
+		ArrayList<Object> args = (ArrayList<Object>) arg;
+		if (((String)args.get(0)).equals("log"))
 		{
 			String logString = "";
-			System.out.println("Logger:\n"+observable.toString());
+//			System.out.println("Logger:\n"+observabl.toString());
 			for (Object object : args)
 			{
 				logString += (String)object;
@@ -37,6 +42,5 @@ public class WeiboLogger extends MyObserver
 				tableModel.addRow(new Object[]{logString});
 			}
 		}
-		System.out.println("");
 	}
 }
