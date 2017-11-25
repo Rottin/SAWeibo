@@ -32,6 +32,7 @@ public class Weibo extends Observable
 		arg.add(LOGGER);
 		arg.add("查看微博:weiboID = "+weiboId);
 //		notifyObservers(new Object[]{LOGGER,"查看微博:weiboID = "+weiboId});
+		setChanged();
 		notifyObservers(arg);
 		return weiboPO;
 	}
@@ -42,6 +43,7 @@ public class Weibo extends Observable
 		ArrayList<Object> arg = new ArrayList<>();
 		arg.add(LOGGER);
 		arg.add("编辑微博:weiboID = "+weiboId);
+		setChanged();
 		notifyObservers(arg);
 //		notifyObservers(new Object[]{LOGGER,"编辑微博:weiboID = "+weiboId});
 		return dao.editWeibo(weiboId, content);
@@ -53,6 +55,7 @@ public class Weibo extends Observable
 		ArrayList<Object> arg = new ArrayList<>();
 		arg.add(LOGGER);
 		arg.add("添加微博");
+		setChanged();
 		notifyObservers(arg);
 //		notifyObservers(new Object[]{LOGGER,"添加微博"});
 		try
@@ -72,6 +75,7 @@ public class Weibo extends Observable
 		ArrayList<Object> arg = new ArrayList<>();
 		arg.add(LOGGER);
 		arg.add("删除微博:weiboID = "+weiboId);
+		setChanged();
 		notifyObservers(arg);
 //		notifyObservers(new Object[]{LOGGER,"删除微博:weiboID = "+weiboId});
 		return dao.deleteWeibo(weiboId);
@@ -99,7 +103,9 @@ public class Weibo extends Observable
 		arg.add(COUNTER);
 		arg.add(weiboid);
 		arg.add(dao.getClickCount(weiboid));
+		setChanged();
 		notifyObservers(arg);
+		System.out.println("CLICK notify");
 //		notifyObservers(new Object[]{COUNTER,weiboid,dao.getClickCount(weiboid)});
 	}
 }

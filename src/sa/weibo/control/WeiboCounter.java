@@ -28,6 +28,7 @@ public class WeiboCounter implements Observer
 	public void update(Observable o, Object arg)
 	{
 		// TODO Auto-generated method stub
+		System.out.println("COUNT");
 		ArrayList<Object> args = (ArrayList<Object>) arg;
 		if (((String)args.get(0)).equals("count"))
 		{
