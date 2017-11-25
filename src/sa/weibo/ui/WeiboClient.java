@@ -119,7 +119,7 @@ public class WeiboClient
 		refreshWeibo();
 		
 		JButton btnAddWeibo = new JButton("Add Weibo");
-		btnAddWeibo.setBounds(12, 500, 87, 41);
+		btnAddWeibo.setBounds(12, 500, 103, 41);
 		frame.getContentPane().add(btnAddWeibo);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -172,15 +172,15 @@ public class WeiboClient
 		frame.getContentPane().add(lblCount);
 		
 		JButton btnEdit = new JButton("Edit");
-		btnEdit.setBounds(109, 500, 87, 41);
+		btnEdit.setBounds(125, 500, 87, 41);
 		frame.getContentPane().add(btnEdit);
 		
 		JButton btnDelete_1 = new JButton("Delete");
-		btnDelete_1.setBounds(206, 500, 87, 41);
+		btnDelete_1.setBounds(223, 500, 87, 41);
 		frame.getContentPane().add(btnDelete_1);
 		
 		JButton btnNewButton = new JButton("Refresh");
-		btnNewButton.setBounds(303, 502, 92, 37);
+		btnNewButton.setBounds(320, 500, 92, 41);
 		frame.getContentPane().add(btnNewButton);
 		
 		//显示时间的label
@@ -191,7 +191,7 @@ public class WeiboClient
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("New menu");
+		JMenu mnNewMenu = new JMenu("");
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
