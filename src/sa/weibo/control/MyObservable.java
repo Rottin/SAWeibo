@@ -2,15 +2,15 @@ package sa.weibo.control;
 
 import java.util.ArrayList;
 
-public class Observable
+public class MyObservable
 {
 	
-	public Observable()
+	public MyObservable()
 	{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public boolean addObserver(Observer observer)
+	public boolean addObserver(MyObserver observer)
 	{
 		return false;
 	}

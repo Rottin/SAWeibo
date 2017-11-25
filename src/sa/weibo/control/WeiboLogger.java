@@ -2,7 +2,7 @@ package sa.weibo.control;
 
 import javax.swing.table.DefaultTableModel;
 
-public class WeiboLogger extends Observer
+public class WeiboLogger extends MyObserver
 {
 	private DefaultTableModel tableModel;
 	private boolean hasTableModel = false;
@@ -20,7 +20,7 @@ public class WeiboLogger extends Observer
 	}
 	
 	@Override
-	public void update(Observable observable, Object[] args)
+	public void update(MyObservable observable, Object[] args)
 	{
 		// TODO Auto-generated method stub
 		if (((String)args[0]).equals("log"))

@@ -1,6 +1,8 @@
 package sa.weibo.control;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Logger;
 
 import sa.weibo.PO.WeiboPO;
@@ -10,7 +12,7 @@ public class Weibo extends Observable
 {
 	private int userId;
 	private WeiboDAO dao;
-	private ArrayList<Observer> observers;
+	private ArrayList<MyObserver> observers;
 	private final static String LOGGER = "log";
 	private final static String COUNTER = "count";
 	
@@ -19,46 +21,40 @@ public class Weibo extends Observable
 		// TODO Auto-generated constructor stub
 		dao = new WeiboDAO();
 		this.userId = userId;
-		observers = new ArrayList<Observer>();
-	}
-	
-	@Override
-	public boolean addObserver(Observer observer)
-	{
-		// TODO Auto-generated method stub
-		observers.add(observer);
-		return true;
-	}
-	
-	@Override
-	public void notifyObservers(Object[] args)
-	{
-		// TODO Auto-generated method stub
-		for (Observer observer : observers)
-		{
-			observer.update(Weibo.this, args);
-		}
+		observers = new ArrayList<MyObserver>();
 	}
 	
 	public WeiboPO getWeibo(int weiboId)
 	{
 		//TODO 从数据库获取对应的信息
 		WeiboPO weiboPO = dao.getWeibo(weiboId);
-		notifyObservers(new Object[]{LOGGER,"查看微博:weiboID = "+weiboId});
+		ArrayList<Object> arg = new ArrayList<>();
+		arg.add(LOGGER);
+		arg.add("查看微博:weiboID = "+weiboId);
+//		notifyObservers(new Object[]{LOGGER,"查看微博:weiboID = "+weiboId});
+		notifyObservers(arg);
 		return weiboPO;
 	}
 	
 	public boolean editWeibo(int weiboId, String content)
 	{
 		//TODO 实现修改微博内容
-		notifyObservers(new Object[]{LOGGER,"编辑微博:weiboID = "+weiboId});
+		ArrayList<Object> arg = new ArrayList<>();
+		arg.add(LOGGER);
+		arg.add("编辑微博:weiboID = "+weiboId);
+		notifyObservers(arg);
+//		notifyObservers(new Object[]{LOGGER,"编辑微博:weiboID = "+weiboId});
 		return dao.editWeibo(weiboId, content);
 	}
 	
 	public boolean addWeibo(String content)
 	{
 		//TODO 返回新增的weibo的id
-		notifyObservers(new Object[]{LOGGER,"添加微博"});
+		ArrayList<Object> arg = new ArrayList<>();
+		arg.add(LOGGER);
+		arg.add("添加微博");
+		notifyObservers(arg);
+//		notifyObservers(new Object[]{LOGGER,"添加微博"});
 		try
 		{
 			return dao.addWeibo(this.userId, content);
@@ -73,7 +69,11 @@ public class Weibo extends Observable
 	
 	public boolean deleteWeibo(int weiboId)
 	{
-		notifyObservers(new Object[]{LOGGER,"删除微博:weiboID = "+weiboId});
+		ArrayList<Object> arg = new ArrayList<>();
+		arg.add(LOGGER);
+		arg.add("删除微博:weiboID = "+weiboId);
+		notifyObservers(arg);
+//		notifyObservers(new Object[]{LOGGER,"删除微博:weiboID = "+weiboId});
 		return dao.deleteWeibo(weiboId);
 	}
 	
@@ -81,7 +81,7 @@ public class Weibo extends Observable
 	{
 		//TODO 从数据库获取所有微博
 		ArrayList<WeiboPO> weiboPOs = dao.getAllWeibos();
-		notifyObservers(new Object[]{LOGGER,"获取微博列表"});
+//		notifyObservers(new Object[]{LOGGER,"获取微博列表"});
 		return weiboPOs;
 	}
 	
@@ -95,6 +95,11 @@ public class Weibo extends Observable
 	public void clickWeibo(int weiboid)
 	{
 		dao.addClickCount(weiboid);
-		notifyObservers(new Object[]{COUNTER,weiboid,dao.getClickCount(weiboid)});
+		ArrayList<Object> arg = new ArrayList<>();
+		arg.add(COUNTER);
+		arg.add(weiboid);
+		arg.add(dao.getClickCount(weiboid));
+		notifyObservers(arg);
+//		notifyObservers(new Object[]{COUNTER,weiboid,dao.getClickCount(weiboid)});
 	}
 }
