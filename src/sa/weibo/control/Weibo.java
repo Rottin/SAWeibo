@@ -105,7 +105,6 @@ public class Weibo extends Observable
 		arg.add(dao.getClickCount(weiboid));
 		setChanged();
 		notifyObservers(arg);
-		System.out.println("CLICK notify");
 //		notifyObservers(new Object[]{COUNTER,weiboid,dao.getClickCount(weiboid)});
 	}
 }

@@ -119,7 +119,7 @@ public class WeiboClient
 		refreshWeibo();
 		
 		JButton btnAddWeibo = new JButton("Add Weibo");
-		btnAddWeibo.setBounds(12, 500, 106, 41);
+		btnAddWeibo.setBounds(12, 500, 87, 41);
 		frame.getContentPane().add(btnAddWeibo);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -172,15 +172,15 @@ public class WeiboClient
 		frame.getContentPane().add(lblCount);
 		
 		JButton btnEdit = new JButton("Edit");
-		btnEdit.setBounds(130, 500, 106, 41);
+		btnEdit.setBounds(109, 500, 87, 41);
 		frame.getContentPane().add(btnEdit);
 		
 		JButton btnDelete_1 = new JButton("Delete");
-		btnDelete_1.setBounds(246, 500, 106, 41);
+		btnDelete_1.setBounds(206, 500, 87, 41);
 		frame.getContentPane().add(btnDelete_1);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(362, 503, 54, 37);
+		JButton btnNewButton = new JButton("Refresh");
+		btnNewButton.setBounds(303, 502, 92, 37);
 		frame.getContentPane().add(btnNewButton);
 		
 		//显示时间的label
@@ -236,7 +236,8 @@ public class WeiboClient
 						weibo.editWeibo(currentWeiboID, content);
 						try
 						{
-							Thread.sleep(1000);
+							Thread.sleep(500);
+							textArea.setText("");
 							refreshWeibo();
 						}
 						catch (InterruptedException e1)
@@ -263,7 +264,8 @@ public class WeiboClient
 					weibo.deleteWeibo(currentWeiboID);
 					try
 					{
-						Thread.sleep(1000);
+						Thread.sleep(500);
+						textArea.setText("");
 						refreshWeibo();
 					}
 					catch (InterruptedException e1)
@@ -292,7 +294,8 @@ public class WeiboClient
 				}
 				try
 				{
-					Thread.sleep(1000);
+					Thread.sleep(500);
+					textArea.setText("");
 					refreshWeibo();
 				}
 				catch (InterruptedException e1)
@@ -300,6 +303,17 @@ public class WeiboClient
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			}
+		});
+		//刷新按钮
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				// TODO Auto-generated method stub
+				refreshWeibo();
 			}
 		});
 	}
