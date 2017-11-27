@@ -1,5 +1,6 @@
 package sa.weibo.PO;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 
 import javax.management.relation.Relation;
@@ -8,7 +9,7 @@ public class WeiboPO
 {
 	private int weiboId;
 	private int userId;
-	private long releasedTime;
+	private Timestamp releasedTime;
 	private String content;
 	private int clickCount;
 	
@@ -37,12 +38,12 @@ public class WeiboPO
 		this.userId = userId;
 	}
 	
-	public long getReleasedTime()
+	public Timestamp getReleasedTime()
 	{
 		return releasedTime;
 	}
 	
-	public void setReleasedTime(long releasedTime)
+	public void setReleasedTime(Timestamp releasedTime)
 	{
 		this.releasedTime = releasedTime;
 	}

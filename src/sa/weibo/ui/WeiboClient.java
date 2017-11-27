@@ -16,7 +16,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,9 +52,9 @@ public class WeiboClient
 	 */
 	public static void main(String[] args)
 	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
+ 		EventQueue.invokeLater(new Runnable()
+ 		{
+     		public void run()
 			{
 				try
 				{
@@ -210,11 +214,10 @@ public class WeiboClient
 					currentWeiboID = weiboid;
 					int userid = (int)tableModel.getValueAt(row, 1);
 					String content = (String)tableModel.getValueAt(row, 2);
-					long time = (long)tableModel.getValueAt(row, 3);
 					textArea.setText(content);
-					Date date = new Date(time);
+					Timestamp time = (Timestamp)tableModel.getValueAt(row, 3);
 					SimpleDateFormat formatter = new SimpleDateFormat ("yyyy年MM月dd日 HH:mm:ss ");
-					String timeString = formatter.format(date);
+					String timeString = formatter.format(time);
 					lblNewLabel.setText(timeString);
 					//点击微博
 					weibo.clickWeibo(weiboid);

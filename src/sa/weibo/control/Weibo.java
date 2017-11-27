@@ -5,6 +5,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import sa.weibo.PO.WeiboPO;
 import sa.weibo.dao.WeiboDAO;
 
@@ -41,44 +43,62 @@ public class Weibo extends Observable
 	{
 		//TODO 实现修改微博内容
 		ArrayList<Object> arg = new ArrayList<>();
+		boolean result = dao.editWeibo(weiboId, content);
 		arg.add(LOGGER);
-		arg.add("编辑微博:weiboID = "+weiboId);
+		if(result){
+			arg.add("编辑微博:weiboID = "+weiboId);
+		}
+		else if (!result) {
+			arg.add("编辑微博（失败）:weiboID = "+weiboId);
+		}
 		setChanged();
 		notifyObservers(arg);
 //		notifyObservers(new Object[]{LOGGER,"编辑微博:weiboID = "+weiboId});
-		return dao.editWeibo(weiboId, content);
+		return result;
 	}
 	
 	public boolean addWeibo(String content)
 	{
 		//TODO 返回新增的weibo的id
 		ArrayList<Object> arg = new ArrayList<>();
-		arg.add(LOGGER);
-		arg.add("添加微博");
-		setChanged();
-		notifyObservers(arg);
+		boolean result;
 //		notifyObservers(new Object[]{LOGGER,"添加微博"});
 		try
 		{
-			return dao.addWeibo(this.userId, content);
+			result = dao.addWeibo(this.userId, content);
 		}
 		catch (Exception e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
+			result = false;
 		}
+		arg.add(LOGGER);
+		if(result){
+			arg.add("添加微博");
+		}else {
+			arg.add("添加微博（失败）");
+		}
+		
+		setChanged();
+		notifyObservers(arg);
+		return result;
 	}
 	
 	public boolean deleteWeibo(int weiboId)
 	{
 		ArrayList<Object> arg = new ArrayList<>();
+		boolean result = dao.deleteWeibo(weiboId);
 		arg.add(LOGGER);
-		arg.add("删除微博:weiboID = "+weiboId);
+		if(result){
+			arg.add("删除微博:weiboID = "+weiboId);
+		}else {
+			arg.add("删除微博（失败）:weiboID = "+weiboId);
+		}
 		setChanged();
 		notifyObservers(arg);
 //		notifyObservers(new Object[]{LOGGER,"删除微博:weiboID = "+weiboId});
-		return dao.deleteWeibo(weiboId);
+		return result;
 	}
 	
 	public ArrayList<WeiboPO> getAllWeibos()
