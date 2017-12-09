@@ -222,4 +222,31 @@ public class WeiboDAO
 			e.printStackTrace();
 		}
 	}
+
+	public ArrayList<WeiboPO> getWeibosByUserid(int userid){
+		ArrayList<WeiboPO> weibos = new ArrayList<WeiboPO>();
+		try (Connection connection = getConn();)
+		{
+			String sql = "";
+			sql = "select * from weibo where userid = "+userid;
+		    PreparedStatement statement = (PreparedStatement)connection.prepareStatement(sql);
+			ResultSet resultSet = statement.executeQuery();
+			while(resultSet.next()){
+				WeiboPO weiboPO = new WeiboPO();
+				weiboPO.setWeiboId(resultSet.getInt(1));
+				weiboPO.setUserId(resultSet.getInt(2));
+				weiboPO.setContent(resultSet.getString(3));
+				weiboPO.setReleasedTime(resultSet.getTimestamp(4));
+				weibos.add(weiboPO);
+			}
+			return weibos;
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

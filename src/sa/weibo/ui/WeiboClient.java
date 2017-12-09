@@ -67,6 +67,8 @@ public class WeiboClient
 					weibo.addObserver(logger);
 					WeiboCounter counter = new WeiboCounter(countTableModel);
 					weibo.addObserver(counter);
+					//TODO 检查是否有缓存，没有则缓存100条
+					
 				}
 				catch (Exception e)
 				{
@@ -81,7 +83,7 @@ public class WeiboClient
 	 */
 	public WeiboClient()
 	{
-		weibo = new Weibo(123456);
+		weibo = new Weibo(1);
 		initialize();
 	}
 

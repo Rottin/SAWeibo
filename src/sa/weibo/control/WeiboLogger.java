@@ -1,5 +1,7 @@
 package sa.weibo.control;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -12,6 +14,8 @@ public class WeiboLogger implements Observer
 {
 	private DefaultTableModel tableModel;
 	private boolean hasTableModel = false;
+	
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
 	
 	public WeiboLogger()
 	{
@@ -34,11 +38,14 @@ public class WeiboLogger implements Observer
 		{
 			String logString = "";
 //			System.out.println("Logger:\n"+observabl.toString());
+			Date curDate = new Date(System.currentTimeMillis());
+            String timeString = dateFormat.format(curDate);
 			for (Object object : args)
 			{
 				logString += (String)object;
 			}
 			logString = logString.substring(3);
+			logString = timeString + " "+ logString;
 			System.out.println(logString);
 			if(hasTableModel){
 				tableModel.addRow(new Object[]{logString});

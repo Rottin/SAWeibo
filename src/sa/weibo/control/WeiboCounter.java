@@ -1,5 +1,7 @@
 package sa.weibo.control;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -13,6 +15,8 @@ public class WeiboCounter implements Observer
 	private DefaultTableModel tableModel;
 	private boolean hasTableModel = false;
 	private JMSProducer producer;
+	
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
 	
 	public WeiboCounter()
 	{
@@ -38,6 +42,9 @@ public class WeiboCounter implements Observer
 //			System.out.println("COUNT UPDATE");
 			String countString = "";
 			countString  = "点击：WeiboID = " + args.get(1) + "，此微博总点击次数：" + args.get(2);
+			Date curDate = new Date(System.currentTimeMillis());
+            String timeString = dateFormat.format(curDate);
+            countString = timeString+" " +countString;
 			if(hasTableModel){
 				tableModel.addRow(new Object[]{args.get(1), args.get(2)});
 			}

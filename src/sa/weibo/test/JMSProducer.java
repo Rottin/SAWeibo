@@ -66,17 +66,13 @@ public class JMSProducer
             }
         }
 	}
-//    public static void main(String[] args)
-//	{
-//        new JMSProducer();
-//	}
     
     public void send(String logStr){
     	try{
     		connection = connectionFactory.createConnection();
         	connection.start();
         	session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
-        	destination = session.createTopic("logTopic");
+        	destination = session.createQueue("logQueue");
         	messageProducer = session.createProducer(destination);
         	TextMessage message = session.createTextMessage(logStr);
         	messageProducer.send(message);
