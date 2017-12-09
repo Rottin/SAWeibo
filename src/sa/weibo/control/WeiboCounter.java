@@ -6,10 +6,13 @@ import java.util.Observer;
 
 import javax.swing.table.DefaultTableModel;
 
+import sa.weibo.test.JMSProducer;
+
 public class WeiboCounter implements Observer
 {
 	private DefaultTableModel tableModel;
 	private boolean hasTableModel = false;
+	private JMSProducer producer;
 	
 	public WeiboCounter()
 	{
@@ -21,6 +24,7 @@ public class WeiboCounter implements Observer
 		// TODO Auto-generated constructor stub
 		this.tableModel = tableModel;
 		hasTableModel = true;
+		producer = new JMSProducer();
 	}
 	
 
@@ -37,6 +41,9 @@ public class WeiboCounter implements Observer
 			if(hasTableModel){
 				tableModel.addRow(new Object[]{args.get(1), args.get(2)});
 			}
+			
+			//activeMQ
+			producer.send(countString);
 		}
 	}
 }
