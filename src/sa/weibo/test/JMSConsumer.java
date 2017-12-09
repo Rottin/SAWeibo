@@ -43,9 +43,9 @@ public class JMSConsumer
             messageConsumer = session.createConsumer(destination);
 
             while (true) {
-                TextMessage textMessage = (TextMessage) messageConsumer.receive(100000);
+                TextMessage textMessage = (TextMessage) messageConsumer.receive();
                 if(textMessage != null){
-                    System.out.println("收到的消息:" + textMessage.getText());
+                    System.out.println(textMessage.getText());
                 }else {
                 	System.out.println("break");
                     break;

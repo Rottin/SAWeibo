@@ -101,7 +101,7 @@ public class WeiboDAO
 		    sql = "insert into weibo (userid,content,time,clickcount) values(?,?,?,?)";
 		    PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sql);
 		    Timestamp ts = new Timestamp(System.currentTimeMillis());
-			System.out.println("添加微博时间:"+ts);
+			//System.out.println("添加微博时间:"+ts);
 		    try {
 		    	statement.setInt(1, userid);
 		    	statement.setString(2, content);
@@ -115,11 +115,11 @@ public class WeiboDAO
 		    }
 		    if (i == 1)
 			{
-				System.out.println("插入成功");
+//				System.out.println("插入成功");
 				return true;
 			}
 			else {
-				System.out.println("插入失败，i为："+i);
+				System.out.println("WeiboDAO:插入失败，i为："+i);
 				return false;
 			}
 		}
@@ -137,17 +137,17 @@ public class WeiboDAO
 		try (Connection connection = getConn();)
 		{
 			String sql = "";
-			System.out.println("删除微博"+weiboid);
+//			System.out.println("删除微博"+weiboid);
 			sql = "delete from weibo where weiboid = " + weiboid;
 		    PreparedStatement statement = (PreparedStatement)connection.prepareStatement(sql);
 		    int i = statement.executeUpdate();
 			if (i == 1)
 			{
-				System.out.println("删除成功");
+//				System.out.println("删除成功");
 				return true;
 			}
 			else {
-				System.out.println("删除失败，i为："+i);
+				System.out.println("WeiboDAO:删除失败，i为："+i);
 				return false;
 			}
 		}
@@ -164,17 +164,17 @@ public class WeiboDAO
 		try (Connection connection = getConn();)
 		{
 			String sql = "";
-			System.out.println("更新微博"+weiboid);
+//			System.out.println("更新微博"+weiboid);
 			sql = "update weibo set content = '" + content + "' where weiboid = " + weiboid;
 		    PreparedStatement statement = (PreparedStatement)connection.prepareStatement(sql);
 		    int i = statement.executeUpdate();
 			if (i == 1)
 			{
-				System.out.println("更新成功");
+//				System.out.println("更新成功");
 				return true;
 			}
 			else {
-				System.out.println("更新失败，i为："+i);
+				System.out.println("WeiboDAO:更新失败，i为："+i);
 				return false;
 			}
 		}
