@@ -31,21 +31,22 @@ import javax.swing.table.TableModel;
 import javax.swing.text.html.parser.ContentModel;
 
 import sa.weibo.PO.WeiboPO;
+import sa.weibo.cache.WeiboCache;
 import sa.weibo.control.Weibo;
 import sa.weibo.control.WeiboCounter;
 import sa.weibo.control.WeiboLogger;
 
 public class WeiboClient
 {
-
 	private JFrame frame;
 	private JTable table;//微博表
 	private static JTable table_1;//log表
 	private static JTable table_2;//count表
 	private JTextArea textArea;
 	private static Weibo weibo;
+	private static WeiboCache weiboCache;
 	
-	private int currentWeiboID;
+	private Long currentWeiboID;
 
 	/**
 	 * Launch the application.
@@ -67,7 +68,8 @@ public class WeiboClient
 					weibo.addObserver(logger);
 					WeiboCounter counter = new WeiboCounter(countTableModel);
 					weibo.addObserver(counter);
-					//TODO 检查是否有缓存，没有则缓存100条
+					//TODO 缓存
+					
 					
 				}
 				catch (Exception e)
@@ -83,7 +85,8 @@ public class WeiboClient
 	 */
 	public WeiboClient()
 	{
-		weibo = new Weibo(1);
+		weibo = new Weibo(1L);
+		weiboCache = new WeiboCache();
 		initialize();
 	}
 
@@ -120,6 +123,8 @@ public class WeiboClient
 		table.getColumnModel().getColumn(2).setPreferredWidth(211);
 		table.getColumnModel().getColumn(3).setPreferredWidth(100);
 		scrollPane.setViewportView(table);
+		
+		weiboCache.cacheClickTop100UserAndWeibo();
 		
 		//刷新微博界面
 		refreshWeibo();
@@ -212,9 +217,9 @@ public class WeiboClient
 				if(e.getClickCount()==1){
 					DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 					int row = ((JTable)e.getSource()).rowAtPoint(e.getPoint());
-					int weiboid = (int)tableModel.getValueAt(row, 0);
+					Long weiboid = (Long)tableModel.getValueAt(row, 0);
 					currentWeiboID = weiboid;
-					int userid = (int)tableModel.getValueAt(row, 1);
+					long userid = (long)tableModel.getValueAt(row, 1);
 					String content = (String)tableModel.getValueAt(row, 2);
 					textArea.setText(content);
 					Timestamp time = (Timestamp)tableModel.getValueAt(row, 3);
@@ -323,7 +328,7 @@ public class WeiboClient
 		});
 	}
 	private void refreshWeibo(){
-		ArrayList<WeiboPO> weiboPOs = weibo.getAllWeibos();
+		ArrayList<WeiboPO> weiboPOs = weibo.getLast100Weibos();
 		DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 		int rowCount = tableModel.getRowCount();
 		for(int i=0;i<rowCount;i++){

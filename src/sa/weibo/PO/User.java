@@ -1,22 +1,24 @@
 package sa.weibo.PO;
 
-public class User
+import java.io.Serializable;
+
+public class User implements Serializable
 {
-	private int userid;
-	private int clickCount;
-	public int getUserid()
+	private long userid;
+	private long clickCount;
+	public long getUserid()
 	{
 		return userid;
 	}
-	public void setUserid(int userid)
+	public void setUserid(Long userid)
 	{
 		this.userid = userid;
 	}
-	public int getClickCount()
+	public long getClickCount()
 	{
 		return clickCount;
 	}
-	public void setClickCount(int clickCount)
+	public void setClickCount(Long clickCount)
 	{
 		this.clickCount = clickCount;
 	}

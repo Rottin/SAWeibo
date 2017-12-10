@@ -8,52 +8,63 @@ import java.util.logging.Logger;
 import javax.naming.spi.DirStateFactory.Result;
 
 import sa.weibo.PO.WeiboPO;
+import sa.weibo.cache.WeiboCache;
+import sa.weibo.dao.UserDAO;
 import sa.weibo.dao.WeiboDAO;
 
 public class Weibo extends Observable
 {
-	private int userId;
-	private WeiboDAO dao;
+	private Long userId;
+	private WeiboDAO weiboDao;
 	private ArrayList<MyObserver> observers;
 	private final static String LOGGER = "log";
 	private final static String COUNTER = "count";
+	private WeiboCache weiboCache;
+	private UserDAO userDAO;
 	
-	public Weibo(int userId)
+	public Weibo(Long userId)
 	{
 		// TODO Auto-generated constructor stub
-		dao = new WeiboDAO();
+		weiboDao = new WeiboDAO();
+		userDAO = new UserDAO();
 		this.userId = userId;
 		observers = new ArrayList<MyObserver>();
+		weiboCache = new WeiboCache();
 	}
 	
-	public WeiboPO getWeibo(int weiboId)
+	public WeiboPO getWeibo(Long weiboid)
 	{
-		//TODO 从数据库获取对应的信息
-		WeiboPO weiboPO = dao.getWeibo(weiboId);
+		//step1
+//		WeiboPO weiboPO = weiboDao.getWeibo(weiboid); 
+		//step2
+		WeiboPO weiboPO = weiboCache.getWeiboByWeiboid(weiboid);
 		ArrayList<Object> arg = new ArrayList<>();
 		arg.add(LOGGER);
-		arg.add("查看微博:weiboID = "+weiboId);
-//		notifyObservers(new Object[]{LOGGER,"查看微博:weiboID = "+weiboId});
+		arg.add("查看微博:weiboID = "+weiboid);
+//		notifyObservers(new Object[]{LOGGER,"查看微博:weiboID = "+weiboid});
 		setChanged();
 		notifyObservers(arg);
 		return weiboPO;
 	}
 	
-	public boolean editWeibo(int weiboId, String content)
+	public boolean editWeibo(Long weiboid, String content)
 	{
 		//TODO 实现修改微博内容
 		ArrayList<Object> arg = new ArrayList<>();
-		boolean result = dao.editWeibo(weiboId, content);
+		boolean result = weiboDao.editWeibo(weiboid, content);
+		
+		weiboCache.updateCache(weiboid, content);
+		
 		arg.add(LOGGER);
 		if(result){
-			arg.add("编辑微博:weiboID = "+weiboId);
+			arg.add("编辑微博:weiboID = "+weiboid);
 		}
 		else if (!result) {
-			arg.add("编辑微博（失败）:weiboID = "+weiboId);
+			arg.add("编辑微博（失败）:weiboID = "+weiboid);
 		}
 		setChanged();
 		notifyObservers(arg);
-//		notifyObservers(new Object[]{LOGGER,"编辑微博:weiboID = "+weiboId});
+//		notifyObservers(new Object[]{LOGGER,"编辑微博:weiboID = "+weiboid});
 		return result;
 	}
 	
@@ -65,7 +76,7 @@ public class Weibo extends Observable
 //		notifyObservers(new Object[]{LOGGER,"添加微博"});
 		try
 		{
-			result = dao.addWeibo(this.userId, content);
+			result = weiboDao.addWeibo(this.userId, content,0L);
 		}
 		catch (Exception e)
 		{
@@ -85,30 +96,36 @@ public class Weibo extends Observable
 		return result;
 	}
 	
-	public boolean deleteWeibo(int weiboId)
+	public boolean deleteWeibo(Long weiboid)
 	{
 		ArrayList<Object> arg = new ArrayList<>();
-		boolean result = dao.deleteWeibo(weiboId);
+		boolean result = weiboDao.deleteWeibo(weiboid);
+		
+		weiboCache.deleteWeiboFromCache(weiboid);
+		
 		arg.add(LOGGER);
 		if(result){
-			arg.add("删除微博:weiboID = "+weiboId);
+			arg.add("删除微博:weiboID = "+weiboid);
 		}else {
-			arg.add("删除微博（失败）:weiboID = "+weiboId);
+			arg.add("删除微博（失败）:weiboID = "+weiboid);
 		}
 		setChanged();
 		notifyObservers(arg);
-//		notifyObservers(new Object[]{LOGGER,"删除微博:weiboID = "+weiboId});
+//		notifyObservers(new Object[]{LOGGER,"删除微博:weiboID = "+weiboid});
 		return result;
 	}
 	
 	public ArrayList<WeiboPO> getAllWeibos()
 	{
 		//TODO 从数据库获取所有微博
-		ArrayList<WeiboPO> weiboPOs = dao.getAllWeibos();
+		ArrayList<WeiboPO> weiboPOs = weiboDao.getAllWeibos();
+//		ArrayList<WeiboPO> weiboPOs = weiboCache.getAllWeiboFromCache();
 //		notifyObservers(new Object[]{LOGGER,"获取微博列表"});
 		return weiboPOs;
 	}
-	
+	public ArrayList<WeiboPO> getLast100Weibos(){
+		return weiboDao.getLast100Weibos();
+	}
 	@Override
 	public String toString()
 	{
@@ -116,15 +133,20 @@ public class Weibo extends Observable
 		return "Weibo:userID:"+this.userId;
 	}
 	
-	public void clickWeibo(int weiboid)
+	public void clickWeibo(Long weiboid)
 	{
-		dao.addClickCount(weiboid);
+		weiboDao.addClickCount(weiboid);
+//		WeiboPO weiboPO = weiboDao.getWeibo(weiboid);
+		WeiboPO weiboPO = weiboCache.getWeiboByWeiboid(weiboid);
+		
+		userDAO.addClickCount(weiboPO.getUserId());
+		
 		ArrayList<Object> arg = new ArrayList<>();
 		arg.add(COUNTER);
 		arg.add(weiboid);
-		arg.add(dao.getClickCount(weiboid));
+		arg.add(weiboDao.getClickCount(weiboid));
 		setChanged();
 		notifyObservers(arg);
-//		notifyObservers(new Object[]{COUNTER,weiboid,dao.getClickCount(weiboid)});
+//		notifyObservers(new Object[]{COUNTER,weiboid,weiboDao.getClickCount(weiboid)});
 	}
 }

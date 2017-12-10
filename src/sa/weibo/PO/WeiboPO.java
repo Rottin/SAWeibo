@@ -1,39 +1,40 @@
 package sa.weibo.PO;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
 import javax.management.relation.Relation;
 
-public class WeiboPO
+public class WeiboPO implements Serializable
 {
-	private int weiboId;
-	private int userId;
+	private long weiboId;
+	private long userId;
 	private Timestamp releasedTime;
 	private String content;
-	private int clickCount;
+	private long clickCount;
 	
 	public WeiboPO()
 	{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public int getWeiboId()
+	public long getWeiboId()
 	{
 		return this.weiboId;
 	}
 	
-	public void setWeiboId(int weiboId)
+	public void setWeiboId(Long weiboId)
 	{
 		this.weiboId = weiboId;
 	}
 	
-	public int getUserId()
+	public long getUserId()
 	{
 		return userId;
 	}
 	
-	public void setUserId(int userId)
+	public void setUserId(Long userId)
 	{
 		this.userId = userId;
 	}
@@ -57,11 +58,11 @@ public class WeiboPO
 	{
 		this.content = content;
 	}
-	public int getClickCount()
+	public long getClickCount()
 	{
 		return clickCount;
 	}
-	public void setClickCount(int clickCount)
+	public void setClickCount(Long clickCount)
 	{
 		this.clickCount = clickCount;
 	}
