@@ -1,4 +1,4 @@
-package sa.weibo.test;
+package sa.weibo.jms;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -67,7 +67,7 @@ public class JMSProducer
         }
 	}
     
-    public void send(String logStr){
+    public void sendLog(String logStr){
     	try{
     		connection = connectionFactory.createConnection();
         	connection.start();
@@ -92,33 +92,4 @@ public class JMSProducer
             }
         }
     }
-    
-//    public static void sendMessage(Session session,MessageProducer messageProducer) throws Exception{
-//        for (int i = 0; i < JMSProducer.SENDNUM; i++) {
-//            //创建一条文本消息 
-//            TextMessage message = session.createTextMessage("ActiveMQ 发送消息" +i);
-//            System.out.println("发送消息：Activemq 发送消息" + i);
-//            //通过消息生产者发出消息 
-//            messageProducer.send(message);
-//        }
-//
-//    }
-//	@Override
-//	public void onMessage(Message arg0)
-//	{
-//		// TODO Auto-generated method stub
-//		
-//		try
-//		{
-//			LoggingEvent event;
-//			event = (LoggingEvent)((ActiveMQObjectMessage)arg0).getObject();
-//			System.out.println("Received log["+event.getLevel()+"]:"+event.getMessage());
-//		}
-//		catch (JMSException e)
-//		{
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
 }

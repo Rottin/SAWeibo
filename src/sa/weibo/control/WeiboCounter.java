@@ -8,7 +8,7 @@ import java.util.Observer;
 
 import javax.swing.table.DefaultTableModel;
 
-import sa.weibo.test.JMSProducer;
+import sa.weibo.jms.JMSProducer;
 
 public class WeiboCounter implements Observer
 {
@@ -50,7 +50,7 @@ public class WeiboCounter implements Observer
 			}
 			
 			//activeMQ
-			producer.send(countString);
+			producer.sendLog(countString);
 		}
 	}
 }

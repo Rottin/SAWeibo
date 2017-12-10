@@ -8,7 +8,7 @@ import java.util.Observer;
 
 import javax.swing.table.DefaultTableModel;
 
-import sa.weibo.test.JMSProducer;
+import sa.weibo.jms.JMSProducer;
 
 public class WeiboLogger implements Observer
 {
@@ -53,7 +53,7 @@ public class WeiboLogger implements Observer
 			
 			//activeMQ
 			JMSProducer producer = new JMSProducer();
-			producer.send(logString);
+			producer.sendLog(logString);
 		}
 	}
 }

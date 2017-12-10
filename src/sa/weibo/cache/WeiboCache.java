@@ -183,88 +183,8 @@ public class WeiboCache
 			System.out.println(ex.getMessage());
 		}
 	}
-//	/*
-//	 * 获取缓存中的所有微博
-//	 * */
-//	public ArrayList<WeiboPO> getAllWeiboFromCache(){
-//		HashMap<Long, Object> map = getCache();
-//		ArrayList<WeiboPO> weiboPOs = new ArrayList<>();
-//		if(map != null){
-//			Iterator iterator = map.entrySet().iterator();
-//			while(iterator.hasNext()){
-//				Map.Entry entry = (Entry) iterator.next();
-//				weiboPOs.add((WeiboPO) entry.getValue());
-//			}
-//		}
-//		return weiboPOs;
-//	}
+
 	
-	
-	
-	
-	
-	
-	/*
-	 * 获取缓存中点击量最小的用户的信息，也就是前100名中的第100名的用户信息
-	 */
-	public User getMinClickUser()
-	{
-		User user = null;
-		try
-		{
-			// 连接本地的 Memcached 服务
-			MemcachedClient mcc = new MemcachedClient(new InetSocketAddress("127.0.0.1", 11211));
-			System.out.println("Connection to server sucessful.");
-
-			System.out.println("get value in cache - ");
-			String result = (String) mcc.get(MinClick);
-			Gson gson = new Gson();
-			user = gson.fromJson(result, User.class);
-			// 关闭连接
-			mcc.shutdown();
-
-		}
-		catch (Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		return user;
-	}
-
-	/*
-	 * 设置缓存中最小点击量的用户
-	 */
-	public void setMinClickUser(User user)
-	{
-		Gson gson = new Gson();
-		String userJson = gson.toJson(user);
-		setCache(MinClick, 0, userJson);
-	}
-
-	/*
-	 * 删除userid对应用户的缓存
-	 */
-	public void deleteUserCache(Long userid)
-	{
-		try
-		{
-			// 连接本地的 Memcached 服务
-			MemcachedClient mcc = new MemcachedClient(new InetSocketAddress("127.0.0.1", 11211));
-			// System.out.println("Connection to server sucessful.");
-
-			Future fo = mcc.delete(Long.toString(userid));
-
-			System.out.println("delete status:" + fo.get());
-			// System.out.println("delete value in cache");
-			mcc.shutdown();
-
-		}
-		catch (Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-	}
-
 	/*
 	 * 清空所有缓存
 	 */

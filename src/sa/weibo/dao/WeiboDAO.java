@@ -320,16 +320,11 @@ public class WeiboDAO
         String prefix = "insert into weibo (userid,content,time,count) values ";  
         Random random = new Random();
         try(Connection conn = getRandomConn();) {  
-            // 保存sql后缀  
             StringBuffer suffix = new StringBuffer();  
             // 设置事务为非自动提交  
             conn.setAutoCommit(false);  
-            // Statement st = conn.createStatement();  
-            // 比起st，pst会更好些  
             PreparedStatement pst = conn.prepareStatement("");  
-            // 外层循环，总提交事务次数  
             for (int i = 1; i <= 50; i++) {  
-                // 第次提交步长  
             	System.out.println(i);
                 for (int j = 1; j <= 10000; j++) {  
                     // 构建sql后缀  
@@ -340,16 +335,12 @@ public class WeiboDAO
                 }  
                 // 构建完整sql  
                 String sql = prefix + suffix.substring(0, suffix.length() - 1);  
-                // 添加执行sql  
                 pst.addBatch(sql);  
-                // 执行操作  
                 pst.executeBatch();  
-                // 提交事务  
                 conn.commit();  
                 // 清空上一次添加的数据  
                 suffix = new StringBuffer();  
-            }  
-            // 头等连接  
+            } 
             pst.close();  
             conn.close();  
         } catch (SQLException e) {  
